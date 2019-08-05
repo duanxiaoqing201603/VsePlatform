@@ -87,3 +87,9 @@
     }
 
 </script>
+<style>
+  .tinymce-editor{
+    /*border-radius: 4px;
+    border: 1px solid #DCDFE6;*/
+  }
+</style>

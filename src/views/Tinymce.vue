@@ -1,14 +1,14 @@
 <template>
-    <div>
-        {{ msg }}
+    <div class="tinymce">
+        <!--{{ description }}-->
         <tinymce-editor ref="editor"
-                        v-model="msg"
+                        v-model="des"
                         :disabled="disabled"
                         @onClick="onClick">
         </tinymce-editor>
-        <button @click="submit">提交</button>
+        <!--<button @click="submit">提交</button>
         <button @click="clear">清空内容</button>
-        <button @click="disabled = true">禁用</button><br/>
+        <button @click="disabled = true">禁用</button><br/>-->
     </div>
 </template>
 
@@ -18,18 +18,21 @@
         components: {
             TinymceEditor
         },
+        props:['description'],
         data () {
-            return {
-                msg: 'Welcome to Use Tinymce Editor',
-                disabled: false
-            }
+          return {
+            /* msg: '',*/
+            des:this.description,
+            disabled: false
+          }
         },
         methods: {
             // 鼠标单击的事件
             onClick (e, editor) {
-                console.log('Element clicked')
-                console.log(e)
-                console.log(editor)
+                console.log('Element clicked',this.des);
+                /*console.log(e)
+                console.log(editor);*/
+                this.$emit('desChanged',this.des);
             },
             // 清空内容
             clear () {
@@ -41,3 +44,10 @@
         }
     }
 </script>
+<style>
+  .tinymce{
+    width:100%;
+    border-radius: 4px;
+    /*border: 1px solid #DCDFE6;*/
+  }
+</style>

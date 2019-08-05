@@ -145,6 +145,34 @@ export const constantRoutes = [
         component:()=>import('@/views/secondTitle/index'),
         meta: { title: '' }
       },
+      {
+        path:'/courseware',
+        name:'Courseware',
+        hidden:true,
+        component:()=>import('@/views/courseware/index'),
+        meta: { title: '' }
+      },
+      {
+        path:'/video',
+        name:'Video',
+        hidden:true,
+        component:()=>import('@/views/video/index'),
+        meta: { title: '' }
+      },
+      {
+        path:'/PBL',
+        name:'PBL',
+        hidden:true,
+        component:()=>import('@/views/PBL/index'),
+        meta: { title: '' }
+      },
+      {
+        path:'/exercise',
+        name:'Exercise',
+        hidden:true,
+        component:()=>import('@/views/exercise/index'),
+        meta: { title: '' }
+      },
     ]
   },
   /*{

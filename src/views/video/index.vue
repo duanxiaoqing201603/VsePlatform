@@ -1,5 +1,5 @@
 <template>
-  <div class="SecondTitle">
+  <div class="Video">
     <el-table
       :data="list"
       element-loading-text="Loading"
@@ -10,7 +10,7 @@
     >
       <el-table-column type="index" align="center" width="150">
       </el-table-column>
-      <el-table-column prop="name" label="笔记名称" width="250" align="center">
+      <el-table-column prop="name" label="视频名称" width="250" align="center">
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" align="center">
       </el-table-column>
@@ -24,22 +24,23 @@
 <script>
   import https from '../../https'
   export default {
-    name:'SecondTitle',
+    name:'Courseware',
     data(){
       return {
         list:[],
-        noteID:''
+        chapterID:''
       }
     },
     created(){
       this.chapterID=this.$route.query.chapterID;
-      https.fetchPost('http://test.edrmd.com:1443/manage/note/list',
+      https.fetchPost('http://test.edrmd.com:1443/manage/video/list',
         {
           'pageSize':10,
           'showPage':1,
           'id':this.chapterID
         }).then(res=>{
-        this.list=res.data.data.note;
+        console.log(res);
+        this.list=res.data.data.video;
       }).catch(err=>{
         console.log(err);
       })
@@ -53,7 +54,7 @@
   }
 </script>
 <style>
-  .SecondTitle{
+  .Video{
     margin:20px;
   }
 </style>
