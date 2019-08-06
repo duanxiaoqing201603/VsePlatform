@@ -2,27 +2,33 @@
   <div class="CollegeEdit">
     <div class="title"><span>{{pageTitle}}</span></div>
     <div class="collegeContent">
-      <div class="rowDiv"><span class="smallTitle">学院ID</span>
-        <el-input v-model="collegeID" placeholder="学院ID"></el-input>
+      <div  class="rowDiv"><span class="smallTitle">笔记名称</span>
+        <el-input v-model="noteName" placeholder="笔记名称"></el-input>
+      </div>
+      <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">创建时间</span>
+        <el-input v-model="createTime" placeholder="创建时间"></el-input>
       </div>
       <div v-if="operate==='edit'"  class="rowDiv"><span class="smallTitle">章节ID</span>
         <el-input v-model="chapterID" placeholder="章节ID"></el-input>
       </div>
-      <div  class="rowDiv"><span class="smallTitle">章节名称</span>
-        <el-input v-model="chapterName" placeholder="章节名称">
+      <div  class="rowDiv"><span class="smallTitle">3d url数组</span>
+        <el-input v-model="url3d" placeholder="3d url数组">
         </el-input>
+      </div>
+      <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">笔记ID</span>
+        <el-input v-model="noteID" placeholder="笔记ID"></el-input>
+      </div>
+
+      <div  class="rowDiv"><span class="smallTitle">章节ID</span>
+        <el-input v-model="chapterID" placeholder="章节ID"></el-input>
       </div>
       <div  class="rowDiv"><span class="smallTitle">学科ID</span>
         <el-input v-model="subjectID" placeholder="学科ID"></el-input>
       </div>
-
-      <div  class="rowDiv"><span class="smallTitle">状态</span>
-        <el-input v-model="state" placeholder="状态"></el-input>
-      </div>
       <div  class="rowDiv"><span class="smallTitle">排序</span>
-        <el-input v-model="sort" placeholder="是否排序"></el-input>
+        <el-input v-model="sort" placeholder="排序"></el-input>
       </div>
-      <div class="rowDiv"><span class="smallTitle">章节简介</span>
+      <div class="rowDiv"><span class="smallTitle">笔记内容</span>
       <!--<el-input v-model="description" placeholder="章节简介"></el-input>-->
       <Tinymce :description="description" @desChanged="updatedes($event)"></Tinymce>
     </div>
@@ -35,7 +41,7 @@
 <script>
   import https from '../../../https'
   import Tinymce from '../../Tinymce'
-  import {Message,MessageBox} from 'element-ui'
+  import {Message} from 'element-ui'
   export default {
     name:'ChapterEdit',
     components:{
@@ -46,27 +52,34 @@
         operate:'',
         pageTitle:'',
         description:'',
-        chapterName:'',
+        noteName:'',
         state:'',
         sort:'',
+        noteID:'',
+        chapterID:'',
         subjectID:'',
-        chapterID:''
+        createTime:'',
+        url3d:''
       }
     },
     created(){
       this.operate=this.$route.query.operate;
       this.pageTitle=this.operate==='edit'?'编辑':'新建';
       this.$route.meta.title=this.pageTitle;
-      this.collegeID=this.$route.query.collegeId;
+      this.chapterID=this.$route.query.chapterID;
       this.subjectID=this.$route.query.subjectID;
-      if(this.$route.query.chapterID){
-        https.fetchPost('http://test.edrmd.com:1443/manage/chapter/find',{'id':this.$route.query.chapterID}).then(res=>{
+      this.noteID=this.$route.query.noteID;
+      if(this.$route.query.noteID){
+        https.fetchPost('http://test.edrmd.com:1443/manage/note/find',{'id':this.$route.query.noteID}).then(res=>{
           let data=res.data.data;
-          this.chapterName=data.name;
-          this.chapterID=data.id;
-          this.description=data.description;
+          this.noteName=data.name;
+          this.noteID=data.id;
+          this.createTime=data.createTime;
+          this.url3d=data.url3d;
+          this.description=data.content;
           this.state=data.state;
           this.sort=data.sort;
+          this.subjectID=data.subjectId;
         }).catch(err=>{
           console.log(err);
         })
@@ -78,16 +91,16 @@
       },
       save(){
         let params={};
-        params.name=this.chapterName;
+        params.name=this.noteName;
         params.sort=this.sort;
-        params.collegeId=this.collegeID;
-        params.id=this.chapterID;
-        params.description=this.description;
-        params.state=this.state;
         params.subjectId=this.subjectID;
+        params.id=this.noteID;
+        params.content=this.description;
+        params.url3d=this.url3d;
+        params.chapterId=this.chapterID;
         console.log(params);
-        if(this.chapterID){
-          https.fetchPost('http://test.edrmd.com:1443/manage/chapter/update',params).then(res=>{
+        if(this.noteID){
+          https.fetchPost('http://test.edrmd.com:1443/manage/note/update',params).then(res=>{
             if(res.data.status==='0000'){
               Message({
                 message: res.data.message
@@ -101,7 +114,7 @@
             console.log(err);
           })
         }else{
-          https.fetchPost('http://test.edrmd.com:1443/manage/chapter/add',params).then(res=>{
+          https.fetchPost('http://test.edrmd.com:1443/manage/note/add',params).then(res=>{
             if(res.data.status==='0000'){
               Message({
                 message: res.data.message

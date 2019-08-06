@@ -2,11 +2,11 @@
     <div class="tinymce">
         <!--{{ description }}-->
         <tinymce-editor ref="editor"
-                        v-model="des"
+                        v-model="description"
                         :disabled="disabled"
                         @onClick="onClick">
         </tinymce-editor>
-        <!--<button @click="submit">提交</button>
+        <!--<button @click="submit">提交</button>v-html="description"
         <button @click="clear">清空内容</button>
         <button @click="disabled = true">禁用</button><br/>-->
     </div>
@@ -22,17 +22,17 @@
         data () {
           return {
             /* msg: '',*/
-            des:this.description,
+            //des:this.description,
             disabled: false
           }
         },
         methods: {
             // 鼠标单击的事件
             onClick (e, editor) {
-                console.log('Element clicked',this.des);
+                //console.log('Element clicked',this.description);
                 /*console.log(e)
                 console.log(editor);*/
-                this.$emit('desChanged',this.des);
+                this.$emit('desChanged',this.description);
             },
             // 清空内容
             clear () {

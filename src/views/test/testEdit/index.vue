@@ -2,30 +2,35 @@
   <div class="CollegeEdit">
     <div class="title"><span>{{pageTitle}}</span></div>
     <div class="collegeContent">
-      <div class="rowDiv"><span class="smallTitle">学院ID</span>
-        <el-input v-model="collegeID" placeholder="学院ID"></el-input>
+      <div class="rowDiv"><span class="smallTitle">题目</span>
+        <el-input v-model="testTitle" placeholder="题目"></el-input>
       </div>
-      <div v-if="operate==='edit'"  class="rowDiv"><span class="smallTitle">章节ID</span>
+      <div class="rowDiv"><span class="smallTitle">章节ID</span>
         <el-input v-model="chapterID" placeholder="章节ID"></el-input>
       </div>
-      <div  class="rowDiv"><span class="smallTitle">章节名称</span>
-        <el-input v-model="chapterName" placeholder="章节名称">
+      <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">创建时间</span>
+        <el-input v-model="createTime" placeholder="创建时间">
         </el-input>
       </div>
-      <div  class="rowDiv"><span class="smallTitle">学科ID</span>
+      <div class="rowDiv"><span class="smallTitle">学科ID</span>
         <el-input v-model="subjectID" placeholder="学科ID"></el-input>
       </div>
-
-      <div  class="rowDiv"><span class="smallTitle">状态</span>
-        <el-input v-model="state" placeholder="状态"></el-input>
+      <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">测试题ID</span>
+        <el-input v-model="id" placeholder="测试题ID"></el-input>
+      </div>
+      <div  class="rowDiv"><span class="smallTitle">答案</span>
+        <el-input v-model="answers" placeholder="答案"></el-input>
+      </div>
+      <div class="rowDiv"><span class="smallTitle">选项</span>
+        <el-input v-model="options" placeholder="选项"></el-input>
       </div>
       <div  class="rowDiv"><span class="smallTitle">排序</span>
         <el-input v-model="sort" placeholder="是否排序"></el-input>
       </div>
-      <div class="rowDiv"><span class="smallTitle">章节简介</span>
-      <!--<el-input v-model="description" placeholder="章节简介"></el-input>-->
+      <!--<div class="rowDiv"><span class="smallTitle">章节简介</span>
+      &lt;!&ndash;<el-input v-model="description" placeholder="章节简介"></el-input>&ndash;&gt;
       <Tinymce :description="description" @desChanged="updatedes($event)"></Tinymce>
-    </div>
+      </div>-->
       <div  class="rowDiv">
         <el-button @click="save" type="primary">保存</el-button>
       </div>
@@ -35,7 +40,7 @@
 <script>
   import https from '../../../https'
   import Tinymce from '../../Tinymce'
-  import {Message,MessageBox} from 'element-ui'
+  import {Message} from 'element-ui'
   export default {
     name:'ChapterEdit',
     components:{
@@ -46,27 +51,34 @@
         operate:'',
         pageTitle:'',
         description:'',
-        chapterName:'',
+        testTitle:'',
         state:'',
         sort:'',
         subjectID:'',
-        chapterID:''
+        chapterID:'',
+        createTime:'',
+        answers:'',
+        options:'',
+        id:''
       }
     },
     created(){
       this.operate=this.$route.query.operate;
       this.pageTitle=this.operate==='edit'?'编辑':'新建';
       this.$route.meta.title=this.pageTitle;
-      this.collegeID=this.$route.query.collegeId;
+      this.chapterID=this.$route.query.chapterID;
       this.subjectID=this.$route.query.subjectID;
-      if(this.$route.query.chapterID){
-        https.fetchPost('http://test.edrmd.com:1443/manage/chapter/find',{'id':this.$route.query.chapterID}).then(res=>{
+      if(this.$route.query.testID){
+        https.fetchPost('http://test.edrmd.com:1443/manage/test/find',{'id':this.$route.query.testID}).then(res=>{
           let data=res.data.data;
-          this.chapterName=data.name;
-          this.chapterID=data.id;
-          this.description=data.description;
-          this.state=data.state;
+          this.createTime=data.createTime;
+          this.testTitle=data.title;
+          this.id=data.id;
+          this.chapterID=data.chapterId;
+          this.answers=data.answers;
+          this.options=data.options;
           this.sort=data.sort;
+          this.subjectID=data.subjectId;
         }).catch(err=>{
           console.log(err);
         })
@@ -78,16 +90,16 @@
       },
       save(){
         let params={};
-        params.name=this.chapterName;
+        params.title=this.testTitle;
         params.sort=this.sort;
-        params.collegeId=this.collegeID;
-        params.id=this.chapterID;
-        params.description=this.description;
-        params.state=this.state;
+        params.chapterId=this.chapterID;
+        params.id=this.id;
+        params.options=this.options;
+        params.answers=this.answers;
         params.subjectId=this.subjectID;
         console.log(params);
-        if(this.chapterID){
-          https.fetchPost('http://test.edrmd.com:1443/manage/chapter/update',params).then(res=>{
+        if(this.id){
+          https.fetchPost('http://test.edrmd.com:1443/manage/test/update',params).then(res=>{
             if(res.data.status==='0000'){
               Message({
                 message: res.data.message

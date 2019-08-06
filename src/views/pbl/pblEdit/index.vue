@@ -2,27 +2,26 @@
   <div class="CollegeEdit">
     <div class="title"><span>{{pageTitle}}</span></div>
     <div class="collegeContent">
-      <div class="rowDiv"><span class="smallTitle">学院ID</span>
-        <el-input v-model="collegeID" placeholder="学院ID"></el-input>
+      <div class="rowDiv"><span class="smallTitle">PBL名称</span>
+        <el-input v-model="PBLName" placeholder="PBL名称"></el-input>
       </div>
-      <div v-if="operate==='edit'"  class="rowDiv"><span class="smallTitle">章节ID</span>
-        <el-input v-model="chapterID" placeholder="章节ID"></el-input>
+      <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">PBL ID</span>
+        <el-input v-model="pblID" placeholder="PBL ID"></el-input>
       </div>
-      <div  class="rowDiv"><span class="smallTitle">章节名称</span>
-        <el-input v-model="chapterName" placeholder="章节名称">
+      <div class="rowDiv"><span class="smallTitle">章节ID</span>
+        <el-input v-model="chapterID" placeholder="章节ID">
         </el-input>
       </div>
-      <div  class="rowDiv"><span class="smallTitle">学科ID</span>
-        <el-input v-model="subjectID" placeholder="学科ID"></el-input>
+      <div class="rowDiv"><span class="smallTitle">问答数组</span>
+        <el-input v-model="question" placeholder="问答数组"></el-input>
       </div>
-
-      <div  class="rowDiv"><span class="smallTitle">状态</span>
-        <el-input v-model="state" placeholder="状态"></el-input>
+      <div class="rowDiv"><span class="smallTitle">图片数组</span>
+        <el-input v-model="image" placeholder="图片数组"></el-input>
       </div>
-      <div  class="rowDiv"><span class="smallTitle">排序</span>
-        <el-input v-model="sort" placeholder="是否排序"></el-input>
+      <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">创建时间</span>
+        <el-input v-model="createTime" placeholder="创建时间"></el-input>
       </div>
-      <div class="rowDiv"><span class="smallTitle">章节简介</span>
+      <div class="rowDiv"><span class="smallTitle">内容</span>
       <!--<el-input v-model="description" placeholder="章节简介"></el-input>-->
       <Tinymce :description="description" @desChanged="updatedes($event)"></Tinymce>
     </div>
@@ -46,27 +45,33 @@
         operate:'',
         pageTitle:'',
         description:'',
-        chapterName:'',
+        PBLName:'',
         state:'',
         sort:'',
-        subjectID:'',
-        chapterID:''
+        pblID:'',
+        image:'',
+        chapterID:'',
+        createTime:'',
+        question:''
       }
     },
     created(){
       this.operate=this.$route.query.operate;
       this.pageTitle=this.operate==='edit'?'编辑':'新建';
       this.$route.meta.title=this.pageTitle;
-      this.collegeID=this.$route.query.collegeId;
-      this.subjectID=this.$route.query.subjectID;
-      if(this.$route.query.chapterID){
-        https.fetchPost('http://test.edrmd.com:1443/manage/chapter/find',{'id':this.$route.query.chapterID}).then(res=>{
+      this.chapterID=this.$route.query.chapterID;
+      this.pblID=this.$route.query.pblID;
+      if(this.$route.query.pblID){
+        https.fetchPost('http://test.edrmd.com:1443/manage/pbl/find',{'id':this.$route.query.pblID}).then(res=>{
           let data=res.data.data;
-          this.chapterName=data.name;
-          this.chapterID=data.id;
-          this.description=data.description;
-          this.state=data.state;
-          this.sort=data.sort;
+          console.log(res);
+          this.PBLName=data.name;
+          this.createTime=data.createTime;
+          this.chapterID=data.chapterId;
+          this.pblID=data.id;
+          this.description=data.content;
+          this.image=data.image;
+          this.question=data.question;
         }).catch(err=>{
           console.log(err);
         })
@@ -78,16 +83,14 @@
       },
       save(){
         let params={};
-        params.name=this.chapterName;
-        params.sort=this.sort;
-        params.collegeId=this.collegeID;
-        params.id=this.chapterID;
-        params.description=this.description;
-        params.state=this.state;
-        params.subjectId=this.subjectID;
-        console.log(params);
-        if(this.chapterID){
-          https.fetchPost('http://test.edrmd.com:1443/manage/chapter/update',params).then(res=>{
+        params.name=this.PBLName;
+        params.chapterId=this.chapterID;
+        params.content=this.description;
+        params.question=this.question;
+        params.image=this.image;
+        params.id=this.pblID;
+        if(this.pblID){
+          https.fetchPost('http://test.edrmd.com:1443/manage/pbl/update',params).then(res=>{
             if(res.data.status==='0000'){
               Message({
                 message: res.data.message

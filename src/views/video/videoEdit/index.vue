@@ -2,30 +2,32 @@
   <div class="CollegeEdit">
     <div class="title"><span>{{pageTitle}}</span></div>
     <div class="collegeContent">
-      <div class="rowDiv"><span class="smallTitle">学院ID</span>
-        <el-input v-model="collegeID" placeholder="学院ID"></el-input>
+      <div class="rowDiv"><span class="smallTitle">视频名称</span>
+        <el-input v-model="videoName" placeholder="视频名称"></el-input>
       </div>
-      <div v-if="operate==='edit'"  class="rowDiv"><span class="smallTitle">章节ID</span>
+      <div class="rowDiv"><span class="smallTitle">章节ID</span>
         <el-input v-model="chapterID" placeholder="章节ID"></el-input>
       </div>
-      <div  class="rowDiv"><span class="smallTitle">章节名称</span>
-        <el-input v-model="chapterName" placeholder="章节名称">
+      <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">创建时间</span>
+        <el-input v-model="createTime" placeholder="创建时间">
         </el-input>
       </div>
-      <div  class="rowDiv"><span class="smallTitle">学科ID</span>
-        <el-input v-model="subjectID" placeholder="学科ID"></el-input>
+      <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">视频ID</span>
+        <el-input v-model="id" placeholder="视频ID"></el-input>
       </div>
-
-      <div  class="rowDiv"><span class="smallTitle">状态</span>
-        <el-input v-model="state" placeholder="状态"></el-input>
+      <div  class="rowDiv"><span class="smallTitle">阿里云视频ID</span>
+        <el-input v-model="videoID" placeholder="阿里云视频ID"></el-input>
+      </div>
+      <div class="rowDiv"><span class="smallTitle">浏览量</span>
+        <el-input v-model="browserNum" placeholder="浏览量"></el-input>
       </div>
       <div  class="rowDiv"><span class="smallTitle">排序</span>
         <el-input v-model="sort" placeholder="是否排序"></el-input>
       </div>
-      <div class="rowDiv"><span class="smallTitle">章节简介</span>
-      <!--<el-input v-model="description" placeholder="章节简介"></el-input>-->
+      <!--<div class="rowDiv"><span class="smallTitle">章节简介</span>
+      &lt;!&ndash;<el-input v-model="description" placeholder="章节简介"></el-input>&ndash;&gt;
       <Tinymce :description="description" @desChanged="updatedes($event)"></Tinymce>
-    </div>
+    </div>-->
       <div  class="rowDiv">
         <el-button @click="save" type="primary">保存</el-button>
       </div>
@@ -35,7 +37,7 @@
 <script>
   import https from '../../../https'
   import Tinymce from '../../Tinymce'
-  import {Message,MessageBox} from 'element-ui'
+  import {Message} from 'element-ui'
   export default {
     name:'ChapterEdit',
     components:{
@@ -46,27 +48,32 @@
         operate:'',
         pageTitle:'',
         description:'',
-        chapterName:'',
+        videoName:'',
         state:'',
         sort:'',
-        subjectID:'',
-        chapterID:''
+        id:'',
+        videoID:'',
+        chapterID:'',
+        createTime:'',
+        browserNum:'',
       }
     },
     created(){
       this.operate=this.$route.query.operate;
       this.pageTitle=this.operate==='edit'?'编辑':'新建';
       this.$route.meta.title=this.pageTitle;
-      this.collegeID=this.$route.query.collegeId;
-      this.subjectID=this.$route.query.subjectID;
-      if(this.$route.query.chapterID){
-        https.fetchPost('http://test.edrmd.com:1443/manage/chapter/find',{'id':this.$route.query.chapterID}).then(res=>{
+      this.id=this.$route.query.id;
+      this.chapterID=this.$route.query.chapterID;
+      if(this.$route.query.id){
+        https.fetchPost('http://test.edrmd.com:1443/manage/video/find',{'id':this.$route.query.id}).then(res=>{
           let data=res.data.data;
-          this.chapterName=data.name;
-          this.chapterID=data.id;
-          this.description=data.description;
-          this.state=data.state;
+          this.videoName=data.name;
+          this.id=data.id;
+          this.videoID=data.videoId;
+          this.createTime=data.createTime;
           this.sort=data.sort;
+          this.browserNum=data.browserNum;
+          this.chapterID=data.chapterId;
         }).catch(err=>{
           console.log(err);
         })
@@ -78,16 +85,14 @@
       },
       save(){
         let params={};
-        params.name=this.chapterName;
+        params.name=this.videoName;
         params.sort=this.sort;
-        params.collegeId=this.collegeID;
-        params.id=this.chapterID;
-        params.description=this.description;
-        params.state=this.state;
-        params.subjectId=this.subjectID;
-        console.log(params);
+        params.chapterId=this.chapterID;
+        params.id=this.id;
+        params.videoId=this.videoID;
+        params.browserNum=this.browserNum;
         if(this.chapterID){
-          https.fetchPost('http://test.edrmd.com:1443/manage/chapter/update',params).then(res=>{
+          https.fetchPost('http://test.edrmd.com:1443/manage/video/update',params).then(res=>{
             if(res.data.status==='0000'){
               Message({
                 message: res.data.message

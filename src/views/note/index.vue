@@ -1,7 +1,7 @@
 <template>
-  <div class="Video">
+  <div class="SecondTitle">
     <el-button class="add" @click="handleClick($event)"><i class="el-icon-circle-plus-outline"></i> 添加</el-button>
-    <div class="VideoContent">
+    <div class="SecondTitleInfo">
       <el-table
         :data="list"
         element-loading-text="Loading"
@@ -12,7 +12,7 @@
       >
         <el-table-column type="index" align="center" width="150">
         </el-table-column>
-        <el-table-column prop="name" label="视频名称" width="250" align="center">
+        <el-table-column prop="name" label="笔记名称" width="250" align="center">
         </el-table-column>
         <el-table-column prop="createTime" label="创建时间" align="center">
         </el-table-column>
@@ -29,25 +29,28 @@
 </template>
 <script>
   import https from '../../https'
+  import {Message} from 'element-ui'
   export default {
-    name:'Courseware',
+    name:'SecondTitle',
     data(){
       return {
         list:[],
-        chapterID:'',
+        noteID:'',
         operate:'',
-        videoID:''
+        subjectID:'',
+        chapterID:''
       }
     },
     created(){
       this.chapterID=this.$route.query.chapterID;
-      https.fetchPost('http://test.edrmd.com:1443/manage/video/list',
+      this.subjectID=this.$route.query.subjectID;
+      https.fetchPost('http://test.edrmd.com:1443/manage/note/list',
         {
           'pageSize':10,
           'showPage':1,
           'id':this.chapterID
         }).then(res=>{
-        this.list=res.data.data.video;
+        this.list=res.data.data.note;
       }).catch(err=>{
         console.log(err);
       })
@@ -55,11 +58,11 @@
     methods:{
       handleClick(row){
         this.operate=row.name?'edit':'new';
-        this.videoID=row.id;
-        this.$router.push({path:'/videoEdit',query:{'operate':this.operate,'chapterID':this.chapterID,'subjectID':this.subjectID,'id':this.videoID}})
+        this.noteID=row.id;
+        this.$router.push({path:'/noteEdit',query:{'operate':this.operate,'chapterID':this.chapterID,'subjectID':this.subjectID,'noteID':this.noteID}})
       },
       deleteClick(row){
-        https.fetchPost('http://test.edrmd.com:1443/manage/video/delete',{'id':row.id}).then(res=>{
+        https.fetchPost('http://test.edrmd.com:1443/manage/note/delete',{'id':row.id}).then(res=>{
           if(res.data.status==='0000'){
             Message({
               message: res.data.message
@@ -78,10 +81,16 @@
   }
 </script>
 <style>
-  .Video{
+  .SecondTitle{
     margin:20px;
   }
-  .Video .VideoContent{
+  .SecondTitle .add{
+    padding:10px 20px;
+  }
+  .SecondTitle .add span{
+    font-size:16px;
+  }
+  .SecondTitle .SecondTitleInfo{
     margin-top:15px;
   }
 </style>

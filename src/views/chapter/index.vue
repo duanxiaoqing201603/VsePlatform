@@ -31,28 +31,27 @@
         fit
         highlight-current-row
       >
-        <!--<el-table-column prop="createTime" label="创建时间" width="150" align="center">
-        </el-table-column>-->
+        <el-table-column type="index" align="center" width="100"></el-table-column>
         <el-table-column prop="collegeId" align="center" label="学院ID" width="150">
         </el-table-column>
-        <el-table-column prop="name" label="章节名字" width="150" align="center">
+        <el-table-column prop="name" label="章节名字" width="200" align="center">
         </el-table-column>
         <el-table-column prop="id" label="章节ID" width="150" align="center">
         </el-table-column>
-        <el-table-column         :show-overflow-tooltip="true"
+        <!--<el-table-column         :show-overflow-tooltip="true"
                                  prop="description" label="章节简介" width="200" align="center">
+        </el-table-column>-->
+        <el-table-column prop="sort" align="center" label="排序" width="150">
         </el-table-column>
-        <el-table-column prop="sort" align="center" label="排序" width="100">
+        <el-table-column prop="state" align="center" label="状态" width="150">
         </el-table-column>
-        <el-table-column prop="state" align="center" label="状态" width="100">
-        </el-table-column>
-        <el-table-column align="center" label="操作" >
+        <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <el-button @click="next(scope.row)" type="text" size="small">课程学习</el-button>
-            <el-button @click="courseware(scope.row)" type="text" size="small">教学课件</el-button>
+            <el-button @click="ppt(scope.row)" type="text" size="small">教学课件</el-button>
             <el-button @click="video(scope.row)" type="text" size="small">微课视频</el-button>
-            <el-button @click="PBL(scope.row)" type="text" size="small">PBL教学</el-button>
-            <el-button @click="exercise(scope.row)" type="text" size="small">巩固练习</el-button>
+            <el-button @click="pbl(scope.row)" type="text" size="small">PBL教学</el-button>
+            <el-button @click="test(scope.row)" type="text" size="small">巩固练习</el-button>
             <el-button @click="handleClick(scope.row)" type="text" size="small">修改</el-button>
             <el-button @click="deleteClick(scope.row)" type="text" size="small">删除</el-button>
           </template>
@@ -65,7 +64,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import https from '../../https'
-  import {Message} from 'element-ui'
+  import {Message,MessageBox} from 'element-ui'
 
   export default {
     name: 'Chapter',
@@ -79,8 +78,7 @@
         optionsSub:[],
         subjectID:'',
         chapterID:'',
-        noteID:'',
-        coursewareID:''
+        noteID:''
       }
     },
     computed: {
@@ -114,7 +112,7 @@
             'showPage':1,
             'id':this.subjectID
           }).then(res=>{
-            console.log('chapter',res.data.data.chapter);
+            //console.log('chapter',res.data.data.chapter);
           this.list= res.data.data.chapter
         }).catch(err=>{
           console.log(err);
@@ -147,26 +145,30 @@
       },
       next(row){
         this.chapterID=row.id;
-        this.$router.push({path:'/secondTitle',query:{'chapterID':this.chapterID}});
+        this.$router.push({path:'/note',query:{'chapterID':this.chapterID,'subjectID':this.subjectID}});
       },
-      courseware(row){
+      ppt(row){
         this.chapterID=row.id;
-        this.$router.push({path:'/courseware',query:{'chapterID':this.chapterID}});
+        this.$router.push({path:'/ppt',query:{'chapterID':this.chapterID,'subjectID':this.subjectID}});
       },
       video(row){
         this.chapterID=row.id;
-        this.$router.push({path:'/video',query:{'chapterID':this.chapterID}});
+        this.$router.push({path:'/video',query:{'chapterID':this.chapterID,'subjectID':this.subjectID}});
       },
-      PBL(row){
+      pbl(row){
         this.chapterID=row.id;
-        this.$router.push({path:'/PBL',query:{'chapterID':this.chapterID}});
+        this.$router.push({path:'/pbl',query:{'chapterID':this.chapterID,'subjectID':this.subjectID}});
       },
-      exercise(row){
+      test(row){
         this.chapterID=row.id;
-        this.$router.push({path:'/exercise',query:{'chapterID':this.chapterID}});
+        this.$router.push({path:'/test',query:{'chapterID':this.chapterID,'subjectID':this.subjectID}});
       },
       deleteClick(row){
         https.fetchPost('http://test.edrmd.com:1443/manage/chapter/delete',{'id':row.id}).then(res=>{
+          MessageBox({
+            title: '确定删除此项吗',
+            message: '这是提示文案'
+          });
           if(res.data.status==='0000'){
             Message({
               message: res.data.message

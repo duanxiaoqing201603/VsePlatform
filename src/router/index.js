@@ -139,17 +139,31 @@ export const constantRoutes = [
         meta: { title: '' }
       },
       {
-        path:'/secondTitle',
-        name:'SecondTitle',
+        path:'/note',
+        name:'note',
         hidden:true,
-        component:()=>import('@/views/secondTitle/index'),
+        component:()=>import('@/views/note/index'),
         meta: { title: '' }
       },
       {
-        path:'/courseware',
-        name:'Courseware',
+        path:'/noteEdit',
+        name:'NoteEdit',
         hidden:true,
-        component:()=>import('@/views/courseware/index'),
+        component:()=>import('@/views/note/noteEdit/index'),
+        meta: { title: '' }
+      },
+      {
+        path:'/ppt',
+        name:'Ppt',
+        hidden:true,
+        component:()=>import('@/views/ppt/index'),
+        meta: { title: '' }
+      },
+      {
+        path:'/pptEdit',
+        name:'PptEdit',
+        hidden:true,
+        component:()=>import('@/views/ppt/pptEdit/index'),
         meta: { title: '' }
       },
       {
@@ -160,19 +174,40 @@ export const constantRoutes = [
         meta: { title: '' }
       },
       {
-        path:'/PBL',
-        name:'PBL',
+        path:'/videoEdit',
+        name:'VideoEdit',
         hidden:true,
-        component:()=>import('@/views/PBL/index'),
+        component:()=>import('@/views/video/videoEdit/index'),
         meta: { title: '' }
       },
       {
-        path:'/exercise',
-        name:'Exercise',
+        path:'/pbl',
+        name:'pbl',
         hidden:true,
-        component:()=>import('@/views/exercise/index'),
+        component:()=>import('@/views/pbl/index'),
         meta: { title: '' }
       },
+      {
+        path:'/pblEdit',
+        name:'PblEdit',
+        hidden:true,
+        component:()=>import('@/views/pbl/pblEdit/index'),
+        meta: { title: '' }
+      },
+      {
+        path:'/test',
+        name:'Test',
+        hidden:true,
+        component:()=>import('@/views/test/index'),
+        meta: { title: '' }
+      },
+      {
+        path:'/testEdit',
+        name:'TestEdit',
+        hidden:true,
+        component:()=>import('@/views/test/testEdit/index'),
+        meta: { title: '' }
+      }
     ]
   },
   /*{
