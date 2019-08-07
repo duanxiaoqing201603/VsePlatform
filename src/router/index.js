@@ -81,7 +81,7 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/college',
-    meta: { title: '学院管理' , icon: 'form'},
+    meta: { title: '学院管理' },
     children: [
       {
         path: 'college',
@@ -102,7 +102,7 @@ export const constantRoutes = [
     path: '/subject',
     component: Layout,
     redirect:'/subject/index',
-    meta: { title: '学科管理' , icon: 'form'},
+    meta: { title: '学科管理' },
     children: [
       {
         path: 'index',
@@ -123,7 +123,7 @@ export const constantRoutes = [
     path: '/chapter',
     component: Layout,
     redirect:'/chapter/index',
-    meta: { title: '章节管理' , icon: 'form'},
+    meta: { title: '章节管理' },
     children: [
       {
         path: 'index',

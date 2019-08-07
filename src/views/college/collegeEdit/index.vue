@@ -2,28 +2,50 @@
   <div class="CollegeEdit">
     <div class="title"><span>{{pageTitle}}</span></div>
     <div class="collegeContent">
-      <div v-if="operate==='edit'" class="demo-input-suffix"><span>学院ID</span>
+      <div v-if="operate==='edit'" class="rowContent"><span class="rowTitle">学院ID</span>
         <el-input v-model="collegeID" placeholder="学院ID"></el-input>
       </div>
-      <div><span>学院名称</span>
+      <div class="rowContent"><span class="rowTitle">学院名称</span>
         <el-input v-model="collegeName" placeholder="学院名称"></el-input>
       </div>
-      <div v-if="operate==='edit'" class="demo-input-suffix"><span>创建时间</span>
-        <el-input v-model="createTime" placeholder="创建时间"></el-input>
+      <div class="rowContent"><span class="rowTitle">图片</span>
+        <!--<el-upload
+          class="upload-demo"
+          action="http://test.edrmd.com:1443/common/upload"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :on-success="handleSuccess"
+          :file-list="fileList"
+          list-type="picture">
+          <el-button size="small" type="primary">点击上传</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>-->
+        <el-upload :class="{hide:hideUpload}"
+          action="http://test.edrmd.com:1443/common/upload"
+          list-type="picture-card"
+          :file-list="fileList"
+          :on-change="handleChange"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
       </div>
-      <div  v-if="operate==='edit'"><span>图片URL</span>
+      <div class="rowContent" v-if="operate==='edit'"><span class="rowTitle">图片URL</span>
         <el-input v-model="imageUrl" placeholder="图片URL"></el-input>
       </div>
-      <div  v-if="operate==='new'"><span>图片名称</span>
+      <div class="rowContent" v-if="operate==='new'"><span class="rowTitle">图片名称</span>
         <el-input v-model="imageName" placeholder="上传后返回的图片名称"></el-input>
       </div>
-      <div><span>是否在首页展现</span>
+      <div class="rowContent"><span class="rowTitle">是否在首页展现</span>
         <el-input v-model="homeShow" placeholder="是否在首页展现：1、展现"></el-input>
       </div>
-      <div><span>排序</span>
+      <div class="rowContent"><span class="rowTitle">排序</span>
         <el-input v-model="sort" placeholder="是否排序"></el-input>
       </div>
-      <div>
+      <div class="rowContent">
         <el-button @click="save" type="primary">保存</el-button>
       </div>
     </div>
@@ -44,10 +66,23 @@
         sort:'',
         collegeID:'',
         imageUrl:'',
-        createTime:''
+        createTime:'',
+        dialogImageUrl: '',
+        dialogVisible: false,
+        fileList:[
+          {
+            url:''
+          }
+        ],
+        hideUpload: false,
+        limitCount:1
       }
     },
+    beforeCreate(){
+      console.log('dfadfja;fja',this.fileList);
+    },
     created(){
+      console.log('dfadfja;fja',this.fileList);
       this.operate=this.$route.query.operate;
       this.pageTitle=this.operate==='edit'?'编辑':'新建';
       this.$route.meta.title=this.pageTitle;
@@ -60,6 +95,7 @@
           this.createTime=data.createTime;
           this.homeShow=data.homeShow;
           this.sort=data.sort;
+          this.fileList[0].url=this.imageUrl;
         }).catch(err=>{
           console.log(err);
         })
@@ -102,6 +138,21 @@
               console.log(err);
             })
         }
+      },
+      /*handleRemove(file, fileList) {
+      },
+      handlePreview(file) {
+      },*/
+      handleChange(fileList){
+        /*console.log("changge",fileList);
+        this.hideUpload = fileList.length >= this.limitCount;*/
+      },
+      handleRemove(file, fileList) {
+        //this.hideUpload = fileList.length >= this.limitCount;
+      },
+      handlePictureCardPreview(file) {
+        /*this.dialogImageUrl = file.url;
+        this.dialogVisible = true;*/
       }
     }
   }
@@ -130,11 +181,11 @@
   .CollegeEdit .collegeContent{
     margin:30px 0 0 25px;
   }
-  .CollegeEdit .collegeContent div{
+  .CollegeEdit .collegeContent .rowContent{
     display: flex;
     margin-bottom:15px;
   }
-  .CollegeEdit .collegeContent span{
+  .CollegeEdit .collegeContent .rowTitle{
     width:150px;
     height: 40px;
     text-align: left;
@@ -147,5 +198,8 @@
   }
   .CollegeEdit .el-button span{
     line-height: 0;
+  }
+  .CollegeEdit .hide .el-upload--picture-card {
+    display: none;
   }
 </style>

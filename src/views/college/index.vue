@@ -11,6 +11,7 @@
         highlight-current-row
 
       >
+        <el-table-column type="index" align="center" width="100"></el-table-column>
         <el-table-column prop="id" align="center" label="学院ID" width="150">
         </el-table-column>
         <el-table-column prop="name" label="学院名字" width="110" align="center">
