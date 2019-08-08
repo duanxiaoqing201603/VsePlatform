@@ -15,9 +15,39 @@
       <div class="rowDiv"><span class="smallTitle">问答数组</span>
         <el-input v-model="question" placeholder="问答数组"></el-input>
       </div>
-      <div class="rowDiv"><span class="smallTitle">图片数组</span>
-        <el-input v-model="image" placeholder="图片数组"></el-input>
+      <div  class="rowDiv"><span class="smallTitle">图片</span>
+        <el-upload
+                   action="http://test.edrmd.com:1443/common/upload"
+                   list-type="picture-card"
+                   :file-list="fileList"
+                   :on-success="handleSuccess"
+                   :on-change="handleChange"
+                   :on-preview="handlePictureCardPreview"
+                   :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
       </div>
+      <!--<div  v-if="operate==='new'" class="rowDiv"><span class="rowTitle">图片</span>
+        <el-upload :class="{hide:hideUpload}"
+                   action="http://test.edrmd.com:1443/common/upload"
+                   list-type="picture-card"
+                   :file-list="newFile"
+                   :on-success="handleSuccess"
+                   :on-change="handleChange"
+                   :on-preview="handlePictureCardPreview"
+                   :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+      </div>-->
+      <!--<div class="rowDiv"><span class="smallTitle">图片数组</span>
+        <el-input v-model="image" placeholder="图片数组"></el-input>
+      </div>-->
       <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">创建时间</span>
         <el-input v-model="createTime" placeholder="创建时间"></el-input>
       </div>
@@ -52,7 +82,10 @@
         image:'',
         chapterID:'',
         createTime:'',
-        question:''
+        question:'',
+        fileList:[],
+        dialogImageUrl: '',
+        dialogVisible: false,
       }
     },
     created(){
@@ -72,6 +105,10 @@
           this.description=data.content;
           this.image=data.image;
           this.question=data.question;
+          for(let i=0;i<this.image.length;i++){
+            this.fileList.push({'url':this.image[i]});
+          }
+          console.log('fdfafdafdddddddddddddddd',this.fileList);
         }).catch(err=>{
           console.log(err);
         })
@@ -118,6 +155,27 @@
             console.log(err);
           })
         }
+      },
+      handleChange(file,fileList){
+        this.hideUpload = fileList.length >= this.limitCount;
+      },
+      handleRemove(file, fileList) {
+        console.log('remove',file,fileList);
+        this.hideUpload = fileList.length >= this.limitCount;
+        https.fetchPost('http://test.edrmd.com:1443/common/file/delete',{'name':this.imageName}).then(res=>{
+          console.log('remove');
+        }).catch(err=>{
+          console.log(err);
+        })
+      },
+      //图片预览
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      handleSuccess(response, file, fileList){
+        /*this.imageUrl=response.data.fileUrl;*/
+        this.imageName=response.data.fileName;
       }
     }
 

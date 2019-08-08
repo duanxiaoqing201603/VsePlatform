@@ -8,13 +8,6 @@
       <div class="rowDiv"><span class="smallTitle">章节ID</span>
         <el-input v-model="chapterID" placeholder="章节ID"></el-input>
       </div>
-      <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">创建时间</span>
-        <el-input v-model="createTime" placeholder="创建时间">
-        </el-input>
-      </div>
-      <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">视频ID</span>
-        <el-input v-model="id" placeholder="视频ID"></el-input>
-      </div>
       <div  class="rowDiv"><span class="smallTitle">阿里云视频ID</span>
         <el-input v-model="videoID" placeholder="阿里云视频ID"></el-input>
       </div>

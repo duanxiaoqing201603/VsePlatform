@@ -8,7 +8,7 @@
       <div class="rowContent"><span class="rowTitle">学院名称</span>
         <el-input v-model="collegeName" placeholder="学院名称"></el-input>
       </div>
-      <div class="rowContent"><span class="rowTitle">图片</span>
+      <div  v-if="operate==='edit'" class="rowContent"><span class="rowTitle">图片</span>
         <!--<el-upload
           class="upload-demo"
           action="http://test.edrmd.com:1443/common/upload"
@@ -24,9 +24,25 @@
           action="http://test.edrmd.com:1443/common/upload"
           list-type="picture-card"
           :file-list="fileList"
+          :on-success="handleSuccess"
           :on-change="handleChange"
           :on-preview="handlePictureCardPreview"
           :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+      </div>
+      <div  v-if="operate==='new'" class="rowContent"><span class="rowTitle">图片</span>
+        <el-upload :class="{hide:hideUpload}"
+                   action="http://test.edrmd.com:1443/common/upload"
+                   list-type="picture-card"
+                   :file-list="newFile"
+                   :on-success="handleSuccess"
+                   :on-change="handleChange"
+                   :on-preview="handlePictureCardPreview"
+                   :on-remove="handleRemove">
           <i class="el-icon-plus"></i>
         </el-upload>
         <el-dialog :visible.sync="dialogVisible">
@@ -60,8 +76,8 @@
       return {
         operate:'',
         pageTitle:'',
-        imageName:'',
         collegeName:'',
+        imageName:'',
         homeShow:'',
         sort:'',
         collegeID:'',
@@ -71,18 +87,16 @@
         dialogVisible: false,
         fileList:[
           {
+            name:'',
             url:''
           }
         ],
         hideUpload: false,
-        limitCount:1
+        limitCount:1,
+        newFile:[]
       }
     },
-    beforeCreate(){
-      console.log('dfadfja;fja',this.fileList);
-    },
     created(){
-      console.log('dfadfja;fja',this.fileList);
       this.operate=this.$route.query.operate;
       this.pageTitle=this.operate==='edit'?'编辑':'新建';
       this.$route.meta.title=this.pageTitle;
@@ -139,20 +153,26 @@
             })
         }
       },
-      /*handleRemove(file, fileList) {
-      },
-      handlePreview(file) {
-      },*/
-      handleChange(fileList){
-        /*console.log("changge",fileList);
-        this.hideUpload = fileList.length >= this.limitCount;*/
+      handleChange(file,fileList){
+        this.hideUpload = fileList.length >= this.limitCount;
       },
       handleRemove(file, fileList) {
-        //this.hideUpload = fileList.length >= this.limitCount;
+        console.log('remove',file,fileList);
+        this.hideUpload = fileList.length >= this.limitCount;
+        https.fetchPost('http://test.edrmd.com:1443/common/file/delete',{'name':this.imageName}).then(res=>{
+          console.log('remove');
+        }).catch(err=>{
+          console.log(err);
+        })
       },
+      //图片预览
       handlePictureCardPreview(file) {
-        /*this.dialogImageUrl = file.url;
-        this.dialogVisible = true;*/
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      handleSuccess(response, file, fileList){
+        /*this.imageUrl=response.data.fileUrl;*/
+        this.imageName=response.data.fileName;
       }
     }
   }

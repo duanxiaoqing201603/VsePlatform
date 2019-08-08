@@ -12,7 +12,7 @@
       >
         <el-table-column type="index" align="center" width="100">
         </el-table-column>
-        <el-table-column prop="options" label="选项" width="250" align="center">
+        <el-table-column prop="title" label="标题" width="250" align="center">
         </el-table-column>
         <el-table-column prop="createTime" label="创建时间" align="center">
         </el-table-column>
@@ -51,7 +51,7 @@
           'showPage':1,
           'id':this.chapterID
         }).then(res=>{
-        console.log(res);
+        //console.log(res);
         this.list=res.data.data.test;
       }).catch(err=>{
         console.log(err);

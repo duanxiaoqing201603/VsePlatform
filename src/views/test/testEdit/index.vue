@@ -21,12 +21,13 @@
       <div  class="rowDiv"><span class="smallTitle">答案</span>
         <el-input v-model="answers" placeholder="答案"></el-input>
       </div>
-      <div class="rowDiv"><span class="smallTitle">选项</span>
-        <el-input v-model="options" placeholder="选项"></el-input>
+      <div>
+        <div class="rowDiv" v-for="(value,index) in options" :key="index"><span class="smallTitle">选项{{index+1}}</span>
+          <el-input v-model="options[index]" :placeholder="value">{{options[index]}}</el-input>
+        </div>
       </div>
-      <div  class="rowDiv"><span class="smallTitle">排序</span>
-        <el-input v-model="sort" placeholder="是否排序"></el-input>
-      </div>
+
+
       <!--<div class="rowDiv"><span class="smallTitle">章节简介</span>
       &lt;!&ndash;<el-input v-model="description" placeholder="章节简介"></el-input>&ndash;&gt;
       <Tinymce :description="description" @desChanged="updatedes($event)"></Tinymce>
@@ -58,7 +59,7 @@
         chapterID:'',
         createTime:'',
         answers:'',
-        options:'',
+        options:[],
         id:''
       }
     },
@@ -77,6 +78,8 @@
           this.chapterID=data.chapterId;
           this.answers=data.answers;
           this.options=data.options;
+          this.options=this.options.slice(1,this.options.length-1).split(',');
+          console.log('options',this.options);
           this.sort=data.sort;
           this.subjectID=data.subjectId;
         }).catch(err=>{
@@ -96,6 +99,7 @@
         params.id=this.id;
         params.options=this.options;
         params.answers=this.answers;
+        //console.log(params.answers.length);
         params.subjectId=this.subjectID;
         console.log(params);
         if(this.id){

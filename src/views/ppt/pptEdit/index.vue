@@ -1,22 +1,49 @@
 <template>
-  <div class="CollegeEdit">
+  <div class="pptEdit">
     <div class="title"><span>{{pageTitle}}</span></div>
-    <div class="collegeContent">
+    <div class="pptContent">
       <div class="rowDiv"><span class="smallTitle">PPT名称</span>
         <el-input v-model="pptName" placeholder="PPT名称"></el-input>
-      </div>
-      <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">创建时间</span>
-        <el-input v-model="createTime" placeholder="创建时间"></el-input>
       </div>
       <div v-if="operate==='edit'"  class="rowDiv"><span class="smallTitle">PPT ID</span>
         <el-input v-model="pptID" placeholder="PPT ID"></el-input>
       </div>
-      <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">图片</span>
+      <!--<div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">图片</span>
         <el-input v-model="images" placeholder="图片">
         </el-input>
-      </div>
+      </div>-->
       <div class="rowDiv"><span class="smallTitle">章节ID</span>
         <el-input v-model="chapterID" placeholder="章节ID"></el-input>
+      </div>
+      <div  v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">文件</span>
+        <el-upload
+          action="http://test.edrmd.com:1443/common/upload"
+          list-type="text"
+          :file-list="fileList"
+          :on-success="handleSuccess"
+          :on-change="handleChange"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <!--<el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>-->
+      </div>
+      <div  v-if="operate==='new'" class="rowDiv"><span class="smallTitle">图片</span>
+        <el-upload
+                   action="http://test.edrmd.com:1443/common/upload"
+                   list-type="text"
+                   :file-list="newFile"
+                   :on-success="handleSuccess"
+                   :on-change="handleChange"
+                   :on-preview="handlePictureCardPreview"
+                   :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
       </div>
       <div  class="rowDiv"><span class="smallTitle">PPT文件名</span>
         <el-input v-model="fileName" placeholder="PPT文件名"></el-input>
@@ -54,7 +81,15 @@
         fileName:'',
         pptID:'',
         chapterID:'',
-        createTime:''
+        newFile:[],
+        dialogImageUrl: '',
+        dialogVisible: false,
+        fileList:[
+          {
+            name:'',
+            url:''
+          }
+        ],
       }
     },
     created(){
@@ -73,8 +108,8 @@
           this.pptID=data.id;
           this.fileName=data.fileName;
           this.images=data.image;
-          this.createTime=data.createTime;
           this.sort=data.sort;
+          this.fileList[0].name=this.fileName;
         }).catch(err=>{
           console.log(err);
         })
@@ -90,8 +125,6 @@
         params.sort=this.sort;
         params.chapterId=this.chapterID;
         params.id=this.pptID;
-        params.createTime=this.createTime;
-        params.images=this.images;
         params.fileName=this.fileName;
         if(this.pptID){
           https.fetchPost('http://test.edrmd.com:1443/manage/ppt/update',params).then(res=>{
@@ -122,21 +155,42 @@
             console.log(err);
           })
         }
+      },
+      handleChange(file,fileList){
+        this.hideUpload = fileList.length >= this.limitCount;
+      },
+      handleRemove(file, fileList) {
+        //console.log('remove',file,fileList);
+        this.hideUpload = fileList.length >= this.limitCount;
+        https.fetchPost('http://test.edrmd.com:1443/common/file/delete',{'name':this.fileName}).then(res=>{
+          console.log('remove');
+        }).catch(err=>{
+          console.log(err);
+        })
+      },
+      //图片预览
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      handleSuccess(response, file, fileList){
+        /*this.imageUrl=response.data.fileUrl;*/
+        this.fileName=response.data.fileName;
       }
     }
 
   }
 </script>
 <style>
-  .CollegeEdit{
+  .pptEdit{
     margin:20px;
   }
-  .CollegeEdit .title{
+  .pptEdit .title{
     height: 36px;
     border-bottom: solid 1px #d0dee5;
     border-left: solid 1px #d0dee5;
   }
-  .CollegeEdit .title span{
+  .pptEdit .title span{
     display: block;
     border-bottom:red;
     text-align: center;
@@ -148,25 +202,28 @@
     border-top: solid 1px #d0dee5;
     border-right: solid 1px #d0dee5;
   }
-  .CollegeEdit .collegeContent{
+  .pptEdit .pptContent{
     margin:30px 0 0 25px;
   }
-  .CollegeEdit .collegeContent .rowDiv{
+  .pptEdit .pptContent .rowDiv{
     display: flex;
     margin-bottom:15px;
   }
-  .CollegeEdit .collegeContent .smallTitle{
+  .pptEdit .pptContent .smallTitle{
     width:150px;
     height: 40px;
     text-align: left;
     line-height: 40px;
   }
-  .CollegeEdit .el-button{
+  .pptEdit .el-button{
     margin-left: 130px;
     width:150px;
     height:40px;
   }
-  .CollegeEdit .el-button span{
+  .pptEdit .el-button span{
     line-height: 0;
+  }
+  .pptEdit .hide .el-upload--picture-card {
+    display: none;
   }
 </style>
