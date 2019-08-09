@@ -12,11 +12,9 @@
       >
         <el-table-column type="index" align="center" width="100">
         </el-table-column>
-        <el-table-column prop="title" label="标题" width="250" align="center">
+        <el-table-column prop="title" label="标题" width="450" align="center">
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" align="center">
-        </el-table-column>
-        <el-table-column align="center" label="操作" width="200">
+        <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">修改</el-button>
             <el-button @click="deleteClick(scope.row)" type="text" size="small">删除</el-button>
@@ -51,7 +49,6 @@
           'showPage':1,
           'id':this.chapterID
         }).then(res=>{
-        //console.log(res);
         this.list=res.data.data.test;
       }).catch(err=>{
         console.log(err);
