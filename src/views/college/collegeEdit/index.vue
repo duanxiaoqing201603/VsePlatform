@@ -56,10 +56,13 @@
         <el-input v-model="imageName" placeholder="上传后返回的图片名称"></el-input>
       </div>
       <div class="rowContent"><span class="rowTitle">是否在首页展现</span>
-        <el-input v-model="homeShow" placeholder="是否在首页展现：1、展现"></el-input>
+        <!--<el-input v-model="homeShow" placeholder="是否在首页展现：1、展现"></el-input>-->
+        <el-radio v-model="homeShow" label="1">是</el-radio>
+        <el-radio v-model="homeShow" label="2">否</el-radio>
       </div>
       <div class="rowContent"><span class="rowTitle">排序</span>
-        <el-input v-model="sort" placeholder="是否排序"></el-input>
+        <el-radio v-model="sort" :label="1">是</el-radio>
+        <el-radio v-model="sort" :label="2">否</el-radio>
       </div>
       <div class="rowContent">
         <el-button @click="save" type="primary">保存</el-button>
@@ -78,8 +81,8 @@
         pageTitle:'',
         collegeName:'',
         imageName:'',
-        homeShow:'',
-        sort:'',
+        homeShow:'1',
+        sort:1,
         collegeID:'',
         imageUrl:'',
         createTime:'',
@@ -103,12 +106,14 @@
       if(this.$route.query.collegeID){
         https.fetchPost('http://test.edrmd.com:1443/manage/college/find',{'id':this.$route.query.collegeID}).then(res=>{
           let data=res.data.data;
+          console.log('college',data);
           this.collegeName=data.name;
           this.collegeID=data.id;
           this.imageUrl=data.image;
           this.createTime=data.createTime;
           this.homeShow=data.homeShow;
           this.sort=data.sort;
+          console.log('sortsort',typeof this.sort);
           this.fileList[0].url=this.imageUrl;
         }).catch(err=>{
           console.log(err);

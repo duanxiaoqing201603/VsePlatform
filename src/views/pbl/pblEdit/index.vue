@@ -79,10 +79,10 @@
         state:'',
         sort:'',
         pblID:'',
-        image:'',
+        image:[],
         chapterID:'',
         createTime:'',
-        question:'',
+        question:[],
         fileList:[],
         dialogImageUrl: '',
         dialogVisible: false,
@@ -141,7 +141,7 @@
             console.log(err);
           })
         }else{
-          https.fetchPost('http://test.edrmd.com:1443/manage/chapter/add',params).then(res=>{
+          https.fetchPost('http://test.edrmd.com:1443/manage/pbl/add',params).then(res=>{
             if(res.data.status==='0000'){
               Message({
                 message: res.data.message
