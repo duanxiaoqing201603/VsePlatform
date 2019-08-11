@@ -22,17 +22,18 @@
 
       >
         <el-table-column type="index" align="center" width="100"></el-table-column>
-        <el-table-column prop="collegeId" align="center" label="学院ID" width="150">
+        <el-table-column prop="sort" align="center" label="排序" width="200">
         </el-table-column>
-        <el-table-column prop="name" label="学科名字" width="150" align="center">
+        <!--<el-table-column prop="collegeId" align="center" label="学院ID" width="150">
+        </el-table-column>-->
+        <el-table-column prop="name" label="学科名字" align="center">
         </el-table-column>
-        <el-table-column prop="id" label="学科ID" align="center">
+        <el-table-column prop="id" label="学科ID" align="center" width="300">
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="150" align="center">
-        </el-table-column>
-        <el-table-column prop="sort" align="center" label="排序" width="100">
-        </el-table-column>
-        <el-table-column align="center" label="操作" width="200">
+        <!--<el-table-column prop="createTime" label="创建时间" width="150" align="center">
+        </el-table-column>-->
+
+        <el-table-column align="center" label="操作" width="300">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">修改</el-button>
             <el-button @click="deleteClick(scope.row)" type="text" size="small">删除</el-button>

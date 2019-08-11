@@ -32,18 +32,19 @@
         highlight-current-row
       >
         <el-table-column type="index" align="center" width="100"></el-table-column>
-        <el-table-column prop="collegeId" align="center" label="学院ID" width="150">
+        <el-table-column prop="sort" align="center" label="排序" width="200">
         </el-table-column>
-        <el-table-column prop="name" label="章节名字" width="200" align="center">
-        </el-table-column>
-        <el-table-column prop="id" label="章节ID" width="150" align="center">
-        </el-table-column>
-        <!--<el-table-column         :show-overflow-tooltip="true"
-                                 prop="description" label="章节简介" width="200" align="center">
+        <!--<el-table-column prop="collegeId" align="center" label="学院ID" width="150">
         </el-table-column>-->
-        <el-table-column prop="sort" align="center" label="排序" width="150">
+        <el-table-column prop="name" label="章节名字" align="center">
         </el-table-column>
-        <el-table-column prop="state" align="center" label="状态" width="150">
+       <!-- <el-table-column prop="id" label="章节ID" width="150" align="center">
+        </el-table-column>-->
+        <el-table-column align="center" label="状态" width="300">
+          <template slot-scope="scope">
+            <div v-if="scope.row.state==='1'">启用</div>
+            <div v-else>不启用</div>
+          </template>
         </el-table-column>
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">

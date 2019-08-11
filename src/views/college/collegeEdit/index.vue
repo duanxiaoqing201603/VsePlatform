@@ -61,8 +61,9 @@
         <el-radio v-model="homeShow" label="2">否</el-radio>
       </div>
       <div class="rowContent"><span class="rowTitle">排序</span>
-        <el-radio v-model="sort" :label="1">是</el-radio>
-        <el-radio v-model="sort" :label="2">否</el-radio>
+        <el-input type="number" v-model="sort" placeholder="首页显示的顺序，只能输入数字"></el-input>
+        <!--<el-radio v-model="sort" :label="1">是</el-radio>
+        <el-radio v-model="sort" :label="2">否</el-radio>-->
       </div>
       <div class="rowContent">
         <el-button @click="save" type="primary">保存</el-button>
