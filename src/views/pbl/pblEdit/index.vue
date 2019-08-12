@@ -127,7 +127,6 @@
         params.content=this.description;
         params.question=this.question;
         params.image=this.imageName;
-        console.log('params',params.image);
         params.id=this.pblID;
         if(this.pblID){
           https.fetchPost('http://test.edrmd.com:1443/manage/pbl/update',params).then(res=>{
