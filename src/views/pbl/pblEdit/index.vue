@@ -86,9 +86,11 @@
         fileList:[],
         dialogImageUrl: '',
         dialogVisible: false,
+
       }
     },
     created(){
+      this.imageName=[];
       this.operate=this.$route.query.operate;
       this.pageTitle=this.operate==='edit'?'编辑':'新建';
       this.$route.meta.title=this.pageTitle;
@@ -124,7 +126,8 @@
         params.chapterId=this.chapterID;
         params.content=this.description;
         params.question=this.question;
-        params.image=this.image;
+        params.image=this.imageName;
+        console.log('params',params.image);
         params.id=this.pblID;
         if(this.pblID){
           https.fetchPost('http://test.edrmd.com:1443/manage/pbl/update',params).then(res=>{
@@ -160,7 +163,7 @@
         this.hideUpload = fileList.length >= this.limitCount;
       },
       handleRemove(file, fileList) {
-        console.log('remove',file,fileList);
+        console.log('remove',file,this.imageName);
         this.hideUpload = fileList.length >= this.limitCount;
         https.fetchPost('http://test.edrmd.com:1443/common/file/delete',{'name':this.imageName}).then(res=>{
           console.log('remove');
@@ -175,7 +178,8 @@
       },
       handleSuccess(response, file, fileList){
         /*this.imageUrl=response.data.fileUrl;*/
-        this.imageName=response.data.fileName;
+        this.imageName.push(response.data.fileName);
+        console.log('dkjkkkkkkkkkkkk',this.imageName);
       }
     }
 
