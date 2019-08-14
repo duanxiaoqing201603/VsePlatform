@@ -210,6 +210,41 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/experiment',
+    component: Layout,
+    redirect:'/experiment/index',
+    meta: { title: '实验管理' },
+    children: [
+      {
+        path: 'index',
+        name:'Experiment',
+        hidden:true,
+        component: () => import('@/views/experiment/index'),
+      },
+      {
+        path:'/experimentEdit',
+        name:'ExperimentEdit',
+        hidden:true,
+        component:()=>import('@/views/experiment/experimentEdit/index'),
+        meta: { title: '' }
+      },
+      {
+        path:'/problem',
+        name:'Problem',
+        hidden:true,
+        component:()=>import('@/views/problem/index'),
+        meta: { title: '' }
+      },
+      {
+        path:'/problemEdit',
+        name:'ProblemEdit',
+        hidden:true,
+        component:()=>import('@/views/problem/problemEdit/index'),
+        meta: { title: '' }
+      }
+    ]
+  },
   /*{
     path: '/',
     component: Layout,

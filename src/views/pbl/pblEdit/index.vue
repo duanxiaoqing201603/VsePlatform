@@ -54,7 +54,7 @@
       <div class="rowDiv"><span class="smallTitle">内容</span>
       <!--<el-input v-model="description" placeholder="章节简介"></el-input>-->
       <Tinymce :description="description" @desChanged="updatedes($event)"></Tinymce>
-    </div>
+      </div>
       <div  class="rowDiv">
         <el-button @click="save" type="primary">保存</el-button>
       </div>
@@ -86,7 +86,7 @@
         fileList:[],
         dialogImageUrl: '',
         dialogVisible: false,
-
+        imageName:[]
       }
     },
     created(){

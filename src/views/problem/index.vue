@@ -1,7 +1,7 @@
 <template>
-  <div class="PBL">
-    <el-button v-if="flag" class="add" @click="handleClick($event)"><i class="el-icon-circle-plus-outline"></i> 添加</el-button>
-    <div class="PBLcontent">
+  <div class="Test">
+    <el-button class="add" @click="handleClick($event)"><i class="el-icon-circle-plus-outline"></i> 添加</el-button>
+    <div class="Testcontent">
       <el-table
         :data="list"
         element-loading-text="Loading"
@@ -12,56 +12,52 @@
       >
         <el-table-column type="index" align="center" width="100">
         </el-table-column>
-        <el-table-column prop="name" label="PBL名称" width="250" align="center">
+        <el-table-column prop="title" label="标题" width="450" align="center">
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" align="center">
-        </el-table-column>
-        <el-table-column align="center" label="操作" width="200">
+        <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">修改</el-button>
             <el-button @click="deleteClick(scope.row)" type="text" size="small">删除</el-button>
           </template>
+
         </el-table-column>
       </el-table>
     </div>
+
   </div>
 </template>
 <script>
   import https from '../../https'
   import {Message} from 'element-ui'
   export default {
-    name:'Courseware',
+    name:'Problem',
     data(){
       return {
         list:[],
-        chapterID:'',
-        operate:'',
-        pblID:'',
-        flag:true
+        problemID:''
       }
     },
     created(){
-      this.chapterID=this.$route.query.chapterID;
-      https.fetchPost('http://test.edrmd.com:1443/manage/pbl/list',
+      this.problemID=this.$route.query.id;
+      https.fetchPost('http://test.edrmd.com:1443/manage/experiment3d/test/list',
         {
           'pageSize':10,
           'showPage':1,
-          'id':this.chapterID
+          'id':this.problemID
         }).then(res=>{
-        this.list=res.data.data.pbl;
-        this.flag=!this.list;
+          this.list=res.data.data.test;
+        console.log('res.data.data.test',res.data.data.test);
       }).catch(err=>{
         console.log(err);
       })
     },
     methods:{
       handleClick(row){
-        this.operate=row.name?'edit':'new';
-        this.pblID=row.id;
-        this.$router.push({path:'/pblEdit',query:{'operate':this.operate,'chapterID':this.chapterID,'subjectID':this.subjectID,'pblID':this.pblID}})
+        this.operate=row.title?'edit':'new';
+        this.$router.push({path:'/problemEdit',query:{'operate':this.operate,'practiceID':row.id,'problemID':this.problemID}})
       },
       deleteClick(row){
-        https.fetchPost('http://test.edrmd.com:1443/manage/pbl/delete',{'id':row.id}).then(res=>{
+        https.fetchPost('http://test.edrmd.com:1443/manage/experiment3d/test/delete',{'id':row.id}).then(res=>{
           if(res.data.status==='0000'){
             Message({
               message: res.data.message
@@ -80,10 +76,10 @@
   }
 </script>
 <style>
-  .PBL{
+  .Test{
     margin:20px;
   }
-  .PBL .PBLcontent{
+  .Test .Testcontent{
     margin-top:15px;
   }
 </style>

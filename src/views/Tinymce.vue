@@ -26,10 +26,13 @@
             disabled: false
           }
         },
+     /* created(){
+          console.log('dddddddd',this.description);
+      },*/
         methods: {
             // 鼠标单击的事件
             onClick (e, editor) {
-                //console.log('Element clicked',this.description);
+                //console.log('Element clicked',this.des);
                 /*console.log(e)
                 console.log(editor);*/
                 this.$emit('desChanged',this.description);

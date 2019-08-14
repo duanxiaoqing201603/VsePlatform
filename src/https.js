@@ -2,7 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 /*import store from './store/store'*/
 
-axios.defaults.timeout = 5000;                        //响应时间
+//axios.defaults.timeout = 5000;                        //响应时间
 //axios.defaults.headers.post['x-token'] = localStorage.getItem('token');//'123.123.123'
 axios.defaults.headers['Content-Type'] = 'application/json';  //配置请求头
 axios.defaults.baseURL = 'http://193.168.11.186';   //配置接口地址
