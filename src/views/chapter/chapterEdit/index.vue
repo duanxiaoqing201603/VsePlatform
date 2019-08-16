@@ -1,5 +1,5 @@
 <template>
-  <div class="CollegeEdit">
+  <div class="ChapterEdit">
     <div class="title"><span>{{pageTitle}}</span></div>
     <div class="collegeContent">
       <div class="rowDiv"><span class="smallTitle">学院ID</span>
@@ -121,15 +121,15 @@
   }
 </script>
 <style>
-  .CollegeEdit{
+  .ChapterEdit{
     margin:20px;
   }
-  .CollegeEdit .title{
+  .ChapterEdit .title{
     height: 36px;
     border-bottom: solid 1px #d0dee5;
     border-left: solid 1px #d0dee5;
   }
-  .CollegeEdit .title span{
+  .ChapterEdit .title span{
     display: block;
     border-bottom:red;
     text-align: center;
@@ -141,25 +141,25 @@
     border-top: solid 1px #d0dee5;
     border-right: solid 1px #d0dee5;
   }
-  .CollegeEdit .collegeContent{
+  .ChapterEdit .collegeContent{
     margin:30px 0 0 25px;
   }
-  .CollegeEdit .collegeContent .rowDiv{
+  .ChapterEdit .collegeContent .rowDiv{
     display: flex;
     margin-bottom:15px;
   }
-  .CollegeEdit .collegeContent .smallTitle{
+  .ChapterEdit .collegeContent .smallTitle{
     width:150px;
     height: 40px;
     text-align: left;
     line-height: 40px;
   }
-  .CollegeEdit .el-button{
+  .ChapterEdit .el-button{
     margin-left: 130px;
     width:150px;
     height:40px;
   }
-  .CollegeEdit .el-button span{
+  .ChapterEdit .el-button span{
     line-height: 0;
   }
 </style>

@@ -143,7 +143,7 @@ export const constantRoutes = [
         name:'note',
         hidden:true,
         component:()=>import('@/views/note/index'),
-        meta: { title: '' }
+        meta: { title: '笔记' }
       },
       {
         path:'/noteEdit',
@@ -157,7 +157,7 @@ export const constantRoutes = [
         name:'Ppt',
         hidden:true,
         component:()=>import('@/views/ppt/index'),
-        meta: { title: '' }
+        meta: { title: 'PPT' }
       },
       {
         path:'/pptEdit',
@@ -171,7 +171,7 @@ export const constantRoutes = [
         name:'Video',
         hidden:true,
         component:()=>import('@/views/video/index'),
-        meta: { title: '' }
+        meta: { title: '视频' }
       },
       {
         path:'/videoEdit',
@@ -185,7 +185,7 @@ export const constantRoutes = [
         name:'pbl',
         hidden:true,
         component:()=>import('@/views/pbl/index'),
-        meta: { title: '' }
+        meta: { title: 'PBL' }
       },
       {
         path:'/pblEdit',
@@ -199,7 +199,7 @@ export const constantRoutes = [
         name:'Test',
         hidden:true,
         component:()=>import('@/views/test/index'),
-        meta: { title: '' }
+        meta: { title: '练习题' }
       },
       {
         path:'/testEdit',
@@ -243,6 +243,48 @@ export const constantRoutes = [
         component:()=>import('@/views/problem/problemEdit/index'),
         meta: { title: '' }
       }
+    ]
+  },
+  {
+    path: '/registered',
+    component: Layout,
+    redirect:'/registered/index',
+    meta: { title: '注册管理' },
+    children: [
+      {
+        path: 'index',
+        name:'Registered',
+        hidden:true,
+        component: () => import('@/views/registered/index'),
+      },
+      {
+        path:'/registeredEdit',
+        name:'RegisteredEdit',
+        hidden:true,
+        component:()=>import('@/views/registered/registeredEdit/index'),
+        meta: { title: '' }
+      },
+    ]
+  },
+  {
+    path: '/student',
+    component: Layout,
+    redirect:'/student/index',
+    meta: { title: '学生管理' },
+    children: [
+      {
+        path: 'index',
+        name:'Student',
+        hidden:true,
+        component: () => import('@/views/student/index'),
+      },
+      {
+        path:'/studentEdit',
+        name:'StudentEdit',
+        hidden:true,
+        component:()=>import('@/views/student/studentEdit/index'),
+        meta: { title: '' }
+      },
     ]
   },
   /*{

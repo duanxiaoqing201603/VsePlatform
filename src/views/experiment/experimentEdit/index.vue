@@ -1,5 +1,5 @@
 <template>
-  <div class="CollegeEdit">
+  <div class="ExperimentEdit">
     <div class="title"><span>{{pageTitle}}</span></div>
     <div class="collegeContent">
       <div v-if="operate==='edit'" class="rowDiv"><span class="smallTitle">实验ID</span>
@@ -150,15 +150,15 @@
   }
 </script>
 <style>
-  .CollegeEdit{
+  .ExperimentEdit{
     margin:20px;
   }
-  .CollegeEdit .title{
+  .ExperimentEdit .title{
     height: 36px;
     border-bottom: solid 1px #d0dee5;
     border-left: solid 1px #d0dee5;
   }
-  .CollegeEdit .title span{
+  .ExperimentEdit .title span{
     display: block;
     border-bottom:red;
     text-align: center;
@@ -170,25 +170,25 @@
     border-top: solid 1px #d0dee5;
     border-right: solid 1px #d0dee5;
   }
-  .CollegeEdit .collegeContent{
+  .ExperimentEdit .collegeContent{
     margin:30px 0 0 25px;
   }
-  .CollegeEdit .collegeContent .rowDiv{
+  .ExperimentEdit .collegeContent .rowDiv{
     display: flex;
     margin-bottom:15px;
   }
-  .CollegeEdit .collegeContent .smallTitle{
+  .ExperimentEdit .collegeContent .smallTitle{
     width:150px;
     height: 40px;
     text-align: left;
     line-height: 40px;
   }
-  .CollegeEdit .el-button{
+  .ExperimentEdit .el-button{
     margin-left: 130px;
     width:150px;
     height:40px;
   }
-  .CollegeEdit .el-button span{
+  .ExperimentEdit .el-button span{
     line-height: 0;
   }
 </style>

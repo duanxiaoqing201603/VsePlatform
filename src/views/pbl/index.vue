@@ -30,7 +30,7 @@
   import https from '../../https'
   import {Message} from 'element-ui'
   export default {
-    name:'Courseware',
+    name:'PBL',
     data(){
       return {
         list:[],

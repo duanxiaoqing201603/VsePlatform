@@ -1,5 +1,5 @@
 <template>
-  <div class="Subject">
+  <div class="Chapter">
     <!--<div class="dashboard-text">name: {{ name }}</div>-->
     <div class="subHead">
       <el-button class="add" @click="handleClick($event)"><i class="el-icon-circle-plus-outline"></i> 添加</el-button>
@@ -199,21 +199,21 @@
       line-height: 46px;
     }
   }*/
-  .Subject{
+  .Chapter{
     margin:20px;
 
   }
-  .Subject .subHead{
+  .Chapter .subHead{
     display: flex;
     justify-content: space-between;
   }
-  .Subject .collegeInfo{
+  .Chapter .collegeInfo{
     margin-top:15px;
   }
-  .Subject .add{
+  .Chapter .add{
     padding:10px 20px;
   }
-  .Subject .add span{
+  .Chapter .add span{
     font-size:16px;
   }
 </style>

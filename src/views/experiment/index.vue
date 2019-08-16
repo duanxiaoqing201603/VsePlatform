@@ -1,5 +1,5 @@
 <template>
-  <div class="College">
+  <div class="Experiment">
     <!--<div class="dashboard-text">name: {{ name }}</div>-->
     <el-button class="add" @click="handleClick($event)"><i class="el-icon-circle-plus-outline"></i> 添加</el-button>
     <div class="collegeInfo">
@@ -95,14 +95,14 @@ export default {
     line-height: 46px;
   }
 }*/
-  .College{
+  .Experiment{
     margin:20px;
 
   }
-  .College .collegeInfo{
+  .Experiment .collegeInfo{
     margin-top:15px;
   }
-  .College .add span{
+  .Experiment .add span{
     font-size:16px;
   }
 </style>

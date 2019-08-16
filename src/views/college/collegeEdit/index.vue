@@ -9,17 +9,6 @@
         <el-input v-model="collegeName" placeholder="学院名称"></el-input>
       </div>
       <div  v-if="operate==='edit'" class="rowContent"><span class="rowTitle">图片</span>
-        <!--<el-upload
-          class="upload-demo"
-          action="http://test.edrmd.com:1443/common/upload"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :on-success="handleSuccess"
-          :file-list="fileList"
-          list-type="picture">
-          <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>-->
         <el-upload :class="{hide:hideUpload}"
           action="http://test.edrmd.com:1443/common/upload"
           list-type="picture-card"
@@ -124,7 +113,7 @@
     methods:{
       save(){
         let params={};
-        params.image=this.imageName;
+        params.image=this.imageName.length===0?this.imageUrl:this.imageName;
         params.name=this.collegeName;
         params.homeShow=this.homeShow;
         params.sort=this.sort;

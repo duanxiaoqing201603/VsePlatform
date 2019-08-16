@@ -1,5 +1,5 @@
 <template>
-  <div class="pptEdit">
+  <div class="PPTEdit">
     <div class="title"><span>{{pageTitle}}</span></div>
     <div class="pptContent">
       <div class="rowDiv"><span class="smallTitle">PPT名称</span>
@@ -66,7 +66,7 @@
   import Tinymce from '../../Tinymce'
   import {Message} from 'element-ui'
   export default {
-    name:'ChapterEdit',
+    name:'PPTEdit',
     components:{
       Tinymce
     },
@@ -182,15 +182,15 @@
   }
 </script>
 <style>
-  .pptEdit{
+  .PPTEdit{
     margin:20px;
   }
-  .pptEdit .title{
+  .PPTEdit .title{
     height: 36px;
     border-bottom: solid 1px #d0dee5;
     border-left: solid 1px #d0dee5;
   }
-  .pptEdit .title span{
+  .PPTEdit .title span{
     display: block;
     border-bottom:red;
     text-align: center;
@@ -202,28 +202,28 @@
     border-top: solid 1px #d0dee5;
     border-right: solid 1px #d0dee5;
   }
-  .pptEdit .pptContent{
+  .PPTEdit .pptContent{
     margin:30px 0 0 25px;
   }
-  .pptEdit .pptContent .rowDiv{
+  .PPTEdit .pptContent .rowDiv{
     display: flex;
     margin-bottom:15px;
   }
-  .pptEdit .pptContent .smallTitle{
+  .PPTEdit .pptContent .smallTitle{
     width:150px;
     height: 40px;
     text-align: left;
     line-height: 40px;
   }
-  .pptEdit .el-button{
+  .PPTEdit .el-button{
     margin-left: 130px;
     width:150px;
     height:40px;
   }
-  .pptEdit .el-button span{
+  .PPTEdit .el-button span{
     line-height: 0;
   }
-  .pptEdit .hide .el-upload--picture-card {
+  .PPTEdit .hide .el-upload--picture-card {
     display: none;
   }
 </style>
